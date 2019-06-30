@@ -100,7 +100,7 @@ def set_logfile_path(log_file_path: str) -> None:
     
     The custom logger is configured to propagate its log records to the root logger
     So the only additional thing you get from this custom logger by default is
-    an additional file where only records or error level ERROR and higher are
+    an additional log file where only records or error level ERROR and higher are
     written.
     """
     global dict_config

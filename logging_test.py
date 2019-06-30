@@ -3,7 +3,7 @@ import logging.config
 import logging_conf
 import pathlib
 
-logging_conf.set_logfile_path(pathlib.Path("custom_logfile_name.txt"))
+logging_conf.set_logfile_path(pathlib.Path("my_favourite_logfile_name.txt"))
 logging.config.dictConfig(logging_conf.dict_config)
 # logger = logging.getLogger()
 logger = logging.getLogger("custom_logger")
