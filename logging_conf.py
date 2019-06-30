@@ -3,7 +3,7 @@
 # See example in the comment of the set_logfile_path function below
 
 # Author: Sven Siegmund
-# Version 1
+# Version 2
 
 file_formatter_conf = {
     "format": "{asctime},{msecs:03.0f} {levelname:>9s} {module} {funcName}: {message}",
@@ -22,40 +22,50 @@ formatters_dict = {
     "console_formatter": console_formatter_conf,
 }
 
-console_handler_conf = {
+root_console_handler_conf = {
     "class": "logging.StreamHandler",
     "level": "DEBUG",
     "formatter": "console_formatter",
     "stream": "ext://sys.stdout",
 }
 
-file_handler_conf = {
+root_file_handler_conf = {
     "class": "logging.FileHandler",
     "level": "DEBUG",
     "formatter": "file_formatter",
-    "filename": "logfile.txt",
+    "filename": "debug.log",
+    "mode": "w",
+    "encoding": "utf-8",
+}
+
+custom_file_handler_conf = {
+    "class": "logging.FileHandler",
+    "level": "ERROR",
+    "formatter": "file_formatter",
+    "filename": "errors_only.log",
     "mode": "w",
     "encoding": "utf-8",
 }
 
 handlers_dict = {
-    "console_handler": console_handler_conf,
-    "file_handler": file_handler_conf,
+    "root_console_handler": root_console_handler_conf,
+    "root_file_handler": root_file_handler_conf,
+    "custom_file_handler": custom_file_handler_conf,
 }
 
-console_logger_conf = {
+custom_logger_conf = {
     "propagate": True,
-    "handlers": ["console_handler"],
+    "handlers": ["custom_file_handler"],
     "level": "DEBUG",
 }
 
-file_logger_conf = {
-    "handlers": ["file_handler"],
+root_logger_conf = {
+    "handlers": ["root_file_handler", "root_console_handler"],
     "level": "DEBUG",
 }
 
 loggers_dict = {
-    "console_logger": console_logger_conf
+    "custom_logger": custom_logger_conf,
 }
 
 dict_config = {
@@ -64,23 +74,34 @@ dict_config = {
     "formatters": formatters_dict,
     "handlers": handlers_dict,
     "loggers": loggers_dict,
-    "root": file_logger_conf,
+    "root": root_logger_conf,
     "incremental": False,
 }
 
 def set_logfile_path(log_file_path: str) -> None:
     """
-    This is to easily set the logfile name from the module where logging_conf
+    This is to easily set the logfile name for the root logger's
+    file handler from the module where logging_conf
     is imported. Like this:
 
-    import logging_conf
+        import logging_conf
+        
+        logging_conf.set_logfile_path("custom_logfile_name.txt")
+        logging.config.dictConfig(logging_conf.dict_config)
+
+    If you only need the root logger which outputs to console and your defined file
+    get the root logger.
     
-    logging_conf.set_logfile_path("custom_logfile_name.txt")
-    logging.config.dictConfig(logging_conf.dict_config)
-    # use this if you only need the root logger which only logs into a file of the chosen name:
-    # logging.getLogger()
-    # use this instead if you also want an additional console logger:
-    # logger = logging.getLogger("console_logger")
+        logging.getLogger()
+
+    If you want an additional custom logger, get it like this instead:
+
+        logger = logging.getLogger("custom_logger")
+    
+    The custom logger is configured to propagate its log records to the root logger
+    So the only additional thing you get from this custom logger by default is
+    an additional file where only records or error level ERROR and higher are
+    written.
     """
     global dict_config
-    dict_config["handlers"]["file_handler"]["filename"] = log_file_path
+    dict_config["handlers"]["root_file_handler"]["filename"] = log_file_path

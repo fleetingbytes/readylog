@@ -5,7 +5,8 @@ import pathlib
 
 logging_conf.set_logfile_path(pathlib.Path("custom_logfile_name.txt"))
 logging.config.dictConfig(logging_conf.dict_config)
-logger = logging.getLogger("console_logger")
+# logger = logging.getLogger()
+logger = logging.getLogger("custom_logger")
 
 logger.debug("debug message")
 logger.info("info message")

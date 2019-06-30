@@ -1,0 +1,7 @@
+2019-06-30 12:29:37,417     ERROR logging_test <module>: error message
+2019-06-30 12:29:37,418     ERROR logging_test <module>: division by zero occurred
+Traceback (most recent call last):
+  File "g:\Sven\Python\logging_conf\logging_test.py", line 16, in <module>
+    42/0
+ZeroDivisionError: division by zero
+2019-06-30 12:29:37,420  CRITICAL logging_test <module>: critical error message
