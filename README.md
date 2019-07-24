@@ -53,5 +53,5 @@ logging_conf.set_logfile_path("my_favourite_logfile_name.txt")
 > Commit the logger configuration to the logger and get a logger
 ```
 logging.config.dictConfig(logging_conf.dict_config)
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 ```
