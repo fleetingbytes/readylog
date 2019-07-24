@@ -25,7 +25,7 @@ logging.config.dictConfig(logging_conf.dict_config)
 
 > Get the root logger
 ```
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 ```
 
 and you are ready to go.
