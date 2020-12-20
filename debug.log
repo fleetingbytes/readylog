@@ -1,0 +1,10 @@
+debug message                                          DEBUG 04:13:57.294 logging_test <module> 
+info message                                            INFO 04:13:57.294 logging_test <module> 
+warning message                                      WARNING 04:13:57.294 logging_test <module> 
+error message                                          ERROR 04:13:57.294 logging_test <module> 
+division by zero occurred                              ERROR 04:13:57.294 logging_test <module> 
+Traceback (most recent call last):
+  File "logging_test.py", line 15, in <module>
+    42/0
+ZeroDivisionError: division by zero
+critical error message                              CRITICAL 04:13:57.294 logging_test <module> 
