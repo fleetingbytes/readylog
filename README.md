@@ -36,7 +36,7 @@ This is an example code file with which you can test the logger configuration. I
 ## What is the configuration
 The `root` logger is configured to ouptut records into a log file and also into the console. It outputs everything from error level `DEBUG` to `CRITICAL`.
 
-There is some infrastructure ready for a custom logger, but I never really use it, so feel free to experiment with it, if you want
+There is some infrastructure ready for a custom logger, but I never really use it, so feel free to experiment with it, if you want.
 
 > Get the custom logger
 ```
