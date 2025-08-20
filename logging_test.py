@@ -1,11 +1,16 @@
-import logging
-import logging.config
-import logging_conf
-import pathlib
+from logging import getLogger
+from logging.config import dictConfig as configure_logging
+from pathlib import Path
 
-logging.config.dictConfig(logging_conf.create_dict_config(pathlib.Path("."), "debug.log", "info.log", "error.log"))
-logger = logging.getLogger()
-# logger = logging.getLogger("custom_logger") <-- This makes info log entries double and I don't know why
+from logging_conf import create_dict_config
+
+
+my_logging_configuration = create_dict_config(Path("."), "debug.log", "info.log", "error.log")
+configure_logging(my_logging_configuration)
+
+logger = getLogger(__name__)
+# logger = getLogger("custom_logger")  # <-- This makes info log entries double and I don't know why
+
 
 logger.debug("debug message")
 logger.info("info message")

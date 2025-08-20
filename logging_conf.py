@@ -1,37 +1,37 @@
-#!/usr/bin/env python
-
-# Logger Configuration module
-# Import this for easy logger configuration
-# See example in the comment of the set_logfile_path function below
-
-# Author: Sven Siegmund
-# Version 4
-
 """
-This is to easily set the logfile name for the root logger's
-file handler from the module where logging_conf
-is imported. Like this:
+This is to easily set the loging like this:
 
-    import logging_conf
-    logging.config.dictConfig(logging_conf.create_dict_cofig(pathlib.Path.home(), "debug.log", "info.log", "error.log")
-    logging.getLogger()
+    from logging import getLogger
+    from logging.config import dictConfig as configure_logging
+    from pathlib import Path
+
+    from logging_conf import create_dict_config
+
+
+    my_logging_configuration = create_dict_config(Path("."), "debug.log", "info.log", "error.log")
+    configure_logging(my_logging_configuration)
+
+    logger = getLogger(__name__)
 
 If you want an additional custom logger, get it like this:
 
-    logger = logging.getLogger("custom_logger")
+    logger = getLogger("custom_logger")
 
 The custom logger is configured to propagate its log records to the root logger
 """
 
 
-import pathlib
+from pathlib import Path
 
 
-def create_dict_config(directory: pathlib.Path, all_log: str, info_log: str, error_log: str) -> dict:
+def create_dict_config(directory: Path, all_log: str, info_log: str, error_log: str) -> dict:
     """
     Creates a logging configuration with path to logfiles set as
     given by the arguments
     """
+    directory = Path(directory)
+    directory.mkdir(parents=True, exist_ok=True)
+
     file_formatter_conf = {
         "format": "{message:<50s} {levelname:>9s} {asctime}.{msecs:03.0f} {module} {funcName} ",
         "style": "{",
