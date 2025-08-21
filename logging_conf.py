@@ -1,21 +1,26 @@
 """
-This is to easily set the loging like this:
+This is to easily set the logfile name for the root logger's
+file handler from the module where logging_conf
+is imported. Like this:
 
     from logging import getLogger
     from logging.config import dictConfig as configure_logging
-    from pathlib import Path
+    from platformdirs import user_log_dir
 
-    from logging_conf import create_dict_config
+    from ..logging_conf import create_dict_config
 
 
-    my_logging_configuration = create_dict_config(Path("."), "debug.log", "info.log", "error.log")
-    configure_logging(my_logging_configuration)
+    my_app_name = "<YOUR_APP_NAME_HERE>"
+    logging_dir = Path(user_log_dir(my_app_name))
+    logger_configuration = create_dict_config(logging_dir, "debug.log")
+    configure_logging(logger_configuration)
 
     logger = getLogger(__name__)
 
+
 If you want an additional custom logger, get it like this:
 
-    logger = getLogger("custom_logger")
+    logger = logging.getLogger("custom_logger")
 
 The custom logger is configured to propagate its log records to the root logger
 """
@@ -24,63 +29,74 @@ The custom logger is configured to propagate its log records to the root logger
 from pathlib import Path
 
 
-def create_dict_config(directory: Path, all_log: str, info_log: str, error_log: str) -> dict:
+def create_dict_config(directory: Path, logfile_name: str) -> dict:
     """
     Creates a logging configuration with path to logfiles set as
     given by the arguments
     """
     directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
+    logfile = directory / logfile_name
 
-    file_formatter_conf = {
-        "format": "{message:<50s} {levelname:>9s} {asctime}.{msecs:03.0f} {module} {funcName} ",
+    custom_file_formatter_conf = {
+        "format": "{message:<50s} {levelname:>9s} {asctime}.{msecs:03.0f} {module}({lineno}) {funcName}",
         "style": "{",
-        # "datefmt": "%Y-%m-%d %H:%M:%S",
-        "datefmt": "%H:%M:%S",
+        "datefmt": "%a %H:%M:%S",
     }
 
-    console_formatter_conf = {
-        "format": "{message:<50s} {levelname:>9s} {module} {funcName}",
-        # "format": "{asctime},{msecs:03.0f} {levelname:>9s} {module} {funcName}: {message}",
+    custom_console_formatter_conf = {
+        "format": "{message:<50s} {levelname:>9s} {module}({lineno}) {funcName}",
+        "style": "{",
+        "datefmt": "%a %H:%M:%S",
+    }
+
+    root_file_formatter_conf = {
+        "format": f"[ROOT LOG] {custom_file_formatter_conf["format"]},
+        "style": "{",
+        "datefmt": "%a %H:%M:%S",
+    }
+
+    root_console_formatter_conf = {
+        "format": f"[ROOT LOG] {custom_console_formatter_conf["format"]},
         "style": "{",
         "datefmt": "%a %H:%M:%S",
     }
 
     formatters_dict = {
-        "file_formatter": file_formatter_conf,
-        "console_formatter": console_formatter_conf,
+        "root_file_formatter": root_file_formatter_conf,
+        "root_console_formatter": root_console_formatter_conf,
+        "custom_file_formatter": custom_file_formatter_conf,
+        "custom_console_formatter": custom_console_formatter_conf,
     }
 
     root_console_handler_conf = {
         "class": "logging.StreamHandler",
         "level": "DEBUG",
-        "formatter": "console_formatter",
-        "stream": "ext://sys.stdout",
+        "formatter": "root_console_formatter",
+        "stream": "ext://sys.stderr",
     }
 
     root_file_handler_conf = {
         "class": "logging.FileHandler",
         "level": "DEBUG",
-        "formatter": "file_formatter",
-        "filename": directory / all_log,
+        "formatter": "root_file_formatter",
+        "filename": logfile.with_stem(f"{logfile.stem}_root"),
         "mode": "w",
         "encoding": "utf-8",
     }
 
-    custom_error_file_handler_conf = {
-        "class": "logging.FileHandler",
-        "level": "ERROR",
-        "formatter": "file_formatter",
-        "filename": directory / error_log,
-        "mode": "w",
-        "encoding": "utf-8",
+    custom_console_handler_conf = {
+        "class": "logging.StreamHandler",
+        "level": "DEBUG",
+        "formatter": "custom_console_formatter",
+        "stream": "ext://sys.stderr",
     }
 
-    custom_info_file_handler_conf = {
+    custom_file_handler_conf = {
         "class": "logging.FileHandler",
-        "level": "INFO",
-        "formatter": "file_formatter",
-        "filename": directory / info_log,
+        "level": "DEBUG",
+        "formatter": "custom_file_formatter",
+        "filename": logfile,
         "mode": "w",
         "encoding": "utf-8",
     }
@@ -88,23 +104,25 @@ def create_dict_config(directory: Path, all_log: str, info_log: str, error_log: 
     handlers_dict = {
         "root_console_handler": root_console_handler_conf,
         "root_file_handler": root_file_handler_conf,
-        "custom_error_file_handler": custom_error_file_handler_conf,
-        "custom_info_file_handler": custom_info_file_handler_conf,
+        "custom_console_handler": custom_console_handler_conf,
+        "custom_file_handler": custom_file_handler_conf,
     }
 
     custom_logger_conf = {
-        "propagate": True,
-        "handlers": ["custom_error_file_handler", "custom_info_file_handler"],
+        "propagate": False,
+        "handlers": ["custom_file_handler", "custom_console_handler"],
         "level": "DEBUG",
     }
 
     root_logger_conf = {
-        "handlers": ["root_file_handler", "root_console_handler", "custom_error_file_handler", "custom_info_file_handler"],
-        "level": "DEBUG",
+        "handlers": ["root_file_handler", "root_console_handler"],
+        "level": "WARNING",
     }
 
     loggers_dict = {
-        "custom_logger": custom_logger_conf,
+        "<YOUR_APP_NAME_HERE>": custom_logger_conf,
+        "<YOUR_LIBRARY_NAME_HERE>": custom_logger_conf,
+        "__main__": custom_logger_conf,
     }
 
     dict_config = {
