@@ -1,44 +1,25 @@
 # logging_conf
-Logging_conf is a ready-to-use configuration dictionary for python's logger.
+Logging_conf is a logging configuration template for Python's logging.
 
 ## Files
-This repository contains two files, of which you actually only need one. The other is just an example code to show how the configuration module is used in actual code.
+This repository contains two files, of which you actually only need the `logging_conf.py`.
+The other is just an example code to showcase the usage of the configuration.
 
-### logging_conf.py
-This is the actual module you should copy into your project folder and import it in your code's modules. Its main purpose is to give you the configuration dictionary `dict_config` with which you can configure all your logging in just few line of code:
+### `logging_conf.py`
+Copy this into your project folder and import the `create_dict_config` function from it in your app's entrypoint.
 
-> Import python's standard logging and its configuration module
-```
-import logging
-import logging.config
-```
+Usage Example:
+```py
+from logging import getLogger
+from logging.config import dictConfig as configure_logging
 
-> Import my module with a ready-to-use logging configuration
-```
-import logging_conf
-```
+from .logging_conf import logging_configuration
 
-> Let the logger use the configuration preset in my module
-```
-logging.config.dictConfig(logging_conf.create_dict_config(pathlib.Path("."), "debug.log", "info.log", "error.log"))
-```
 
-> Get the root logger
-```
-logger = logging.getLogger(__name__)
+configure_logging(logging_configuration)
+
+logger = getLogger(__name__)
 ```
 
 and you are ready to go.
 
-### logging_test.py
-This is an example code file with which you can test the logger configuration. It outputs one line of each error level and shows an exception treatment generating the corresponding log output.
-
-## What is the configuration
-The `root` logger is configured to ouptut records into a log file and also into the console. It outputs everything from error level `DEBUG` to `CRITICAL`.
-
-There is some infrastructure ready for a custom logger, but I never really use it, so feel free to experiment with it, if you want.
-
-> Get the custom logger
-```
-logger = logging.getLogger("custom_logger")
-```
