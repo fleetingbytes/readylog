@@ -1,7 +1,7 @@
 """
 Copy this file into your project
 to manage your logging configuration there.
-Don't forget to change the name of your app and the names of your loggers there!
+Don't forget to change the name of your app and the names of your loggers here!
 
 Use it like this:
 
@@ -16,15 +16,16 @@ Use it like this:
     logger = getLogger(__name__)
 """
 
-
 from pathlib import Path
+
 from platformdirs import user_log_dir
 
-MY_APP_NAME = "my_great_app"
+MY_APP_NAME = "graph_extraction"
 
 logging_dir = Path(user_log_dir(MY_APP_NAME))
 logging_dir.mkdir(parents=True, exist_ok=True)
-logfile = directory / "debug.log"
+logfile = logging_dir / "debug.log"
+
 
 def create_dict_config(logfile: Path) -> dict[str, str]:
     custom_file_formatter_conf = {
@@ -109,8 +110,7 @@ def create_dict_config(logfile: Path) -> dict[str, str]:
     }
 
     loggers_dict = {
-        "<YOUR_APP_NAME_HERE>": custom_logger_conf,
-        "<YOUR_LIBRARY_NAME_HERE>": custom_logger_conf,
+        MY_APP_NAME: custom_logger_conf,
         "__main__": custom_logger_conf,
     }
 
@@ -125,5 +125,6 @@ def create_dict_config(logfile: Path) -> dict[str, str]:
     }
 
     return dict_config
+
 
 logging_configuration = create_dict_config(logfile)
