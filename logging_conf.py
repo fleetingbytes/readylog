@@ -20,7 +20,7 @@ from pathlib import Path
 
 from platformdirs import user_log_dir
 
-MY_APP_NAME = "MY_APP_NAME"
+MY_APP_NAME = "MY_APP_NAME".replace("-", "_")
 
 logging_dir = Path(user_log_dir(MY_APP_NAME))
 logging_dir.mkdir(parents=True, exist_ok=True)
