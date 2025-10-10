@@ -8,7 +8,7 @@ Use it like this:
     from logging import getLogger
     from logging.config import dictConfig as configure_logging
 
-    from .logging_conf import logging_configuration
+    from readylog import logging_configuration
 
 
     configure_logging(logging_configuration)
@@ -41,13 +41,13 @@ def create_dict_config(logfile: Path) -> dict[str, str]:
     }
 
     root_file_formatter_conf = {
-        "format": f'[ROOT LOG] {custom_file_formatter_conf["format"]}',
+        "format": f"[ROOT LOG] {custom_file_formatter_conf['format']}",
         "style": "{",
         "datefmt": "%a %H:%M:%S",
     }
 
     root_console_formatter_conf = {
-        "format": f'[ROOT LOG] {custom_console_formatter_conf["format"]}',
+        "format": f"[ROOT LOG] {custom_console_formatter_conf['format']}",
         "style": "{",
         "datefmt": "%a %H:%M:%S",
     }
