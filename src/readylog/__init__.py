@@ -1,5 +1,5 @@
-from logging import getLevelName, getLevelNameMapping, Handler
 from collections.abc import Callable
+from logging import Handler, getLevelName, getLevelNameMapping
 from pathlib import Path
 
 
@@ -14,9 +14,7 @@ def create_dict_config(
     level_names = getLevelNameMapping().values()
     assert console_log_level in level_names
     assert file_log_level in level_names
-    min_level = getLevelName(
-        min(getLevelName(console_log_level), getLevelName(file_log_level))
-    )
+    min_level = getLevelName(min(getLevelName(console_log_level), getLevelName(file_log_level)))
 
     custom_file_formatter_conf = {
         "format": "{message:<50s} {levelname:>9s} {asctime}.{msecs:03.0f} {module}({lineno}) {funcName}",

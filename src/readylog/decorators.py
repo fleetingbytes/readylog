@@ -1,6 +1,6 @@
 from functools import wraps
 from itertools import product
-from logging import DEBUG, getLogger, getLevelNameMapping, getLevelName
+from logging import DEBUG, getLevelName, getLevelNameMapping, getLogger
 
 logger = getLogger(__name__)
 
