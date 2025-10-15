@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from logging import Handler, getLevelName, getLevelNameMapping
+from logging import FileHandler, StreamHandler, getLevelName, getLevelNamesMapping
 from pathlib import Path
 
 
@@ -7,11 +7,11 @@ def create_dict_config(
     logfile: Path,
     app_name: str,
     console_log_level: str | int = "WARNING",
-    file_log_level: str | int = "NOTSET",
-    console_handler_factory: Callable = Handler,
-    file_handler_factory: Callable = Handler,
+    file_log_level: str | int = "DEBUG",
+    console_handler_factory: Callable = StreamHandler,
+    file_handler_factory: Callable = FileHandler,
 ) -> dict[str, str]:
-    level_names = getLevelNameMapping().values()
+    level_names = getLevelNamesMapping().keys()
     assert console_log_level in level_names
     assert file_log_level in level_names
     min_level = getLevelName(min(getLevelName(console_log_level), getLevelName(file_log_level)))
