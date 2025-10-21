@@ -1,33 +1,21 @@
-"""
-Copy this file into your project
-to manage your logging configuration there.
-Don't forget to change the name of your app and the names of your loggers here!
-
-Use it like this:
-
-    from logging import getLogger
-    from logging.config import dictConfig as configure_logging
-
-    from readylog import logging_configuration
-
-
-    configure_logging(logging_configuration)
-
-    logger = getLogger(__name__)
-"""
-
+from collections.abc import Callable
+from logging import FileHandler, StreamHandler, _checkLevel, getLevelName
 from pathlib import Path
-
-from platformdirs import user_log_dir
-
-MY_APP_NAME = "MY_APP_NAME".replace("-", "_")
-
-logging_dir = Path(user_log_dir(MY_APP_NAME))
-logging_dir.mkdir(parents=True, exist_ok=True)
-logfile = logging_dir / "debug.log"
+from sys import modules
 
 
-def create_dict_config(logfile: Path) -> dict[str, str]:
+def create_dict_config(
+    logfile: Path,
+    app_name: str,
+    console_log_level: str | int = "WARNING",
+    file_log_level: str | int = "DEBUG",
+    console_handler_factory: Callable = StreamHandler,
+    file_handler_factory: Callable = FileHandler,
+) -> dict[str, str]:
+    console_log_level = _checkLevel(console_log_level)
+    file_log_level = _checkLevel(file_log_level)
+    min_level = getLevelName(min(console_log_level, file_log_level))
+
     custom_file_formatter_conf = {
         "format": "{message:<50s} {levelname:>9s} {asctime}.{msecs:03.0f} {module}({lineno}) {funcName}",
         "style": "{",
@@ -60,15 +48,15 @@ def create_dict_config(logfile: Path) -> dict[str, str]:
     }
 
     custom_console_handler_conf = {
-        "class": "logging.StreamHandler",
-        "level": "DEBUG",
+        "()": console_handler_factory,
+        "level": console_log_level,
         "formatter": "custom_console_formatter",
         "stream": "ext://sys.stderr",
     }
 
     custom_file_handler_conf = {
-        "class": "logging.FileHandler",
-        "level": "DEBUG",
+        "()": file_handler_factory,
+        "level": file_log_level,
         "formatter": "custom_file_formatter",
         "filename": logfile,
         "mode": "w",
@@ -76,14 +64,14 @@ def create_dict_config(logfile: Path) -> dict[str, str]:
     }
 
     root_console_handler_conf = {
-        "class": "logging.StreamHandler",
+        "()": console_handler_factory,
         "level": "DEBUG",
         "formatter": "root_console_formatter",
         "stream": "ext://sys.stderr",
     }
 
     root_file_handler_conf = {
-        "class": "logging.FileHandler",
+        "()": file_handler_factory,
         "level": "DEBUG",
         "formatter": "root_file_formatter",
         "filename": logfile.with_stem(f"{logfile.stem}_root"),
@@ -101,7 +89,7 @@ def create_dict_config(logfile: Path) -> dict[str, str]:
     custom_logger_conf = {
         "propagate": False,
         "handlers": ["custom_file_handler", "custom_console_handler"],
-        "level": "DEBUG",
+        "level": min_level,
     }
 
     root_logger_conf = {
@@ -110,8 +98,9 @@ def create_dict_config(logfile: Path) -> dict[str, str]:
     }
 
     loggers_dict = {
-        MY_APP_NAME: custom_logger_conf,
+        app_name: custom_logger_conf,
         "__main__": custom_logger_conf,
+        f"{modules[__name__].__spec__.parent}.decorators": custom_logger_conf,
     }
 
     dict_config = {
@@ -125,6 +114,3 @@ def create_dict_config(logfile: Path) -> dict[str, str]:
     }
 
     return dict_config
-
-
-logging_configuration = create_dict_config(logfile)
