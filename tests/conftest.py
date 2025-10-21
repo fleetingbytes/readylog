@@ -1,17 +1,21 @@
+from collections.abc import Callable
+from pathlib import Path
+from typing import Any
+
 from pytest import FixtureRequest, fixture
 from watchdog.events import FileModifiedEvent, FileSystemEventHandler
 from watchdog.observers import Observer
 
 
 @fixture
-def tmp_log_file(tmp_path):
+def tmp_log_file(tmp_path) -> Path:
     path = tmp_path / "log" / "debug.log"
     path.parent.mkdir(parents=True, exist_ok=False)
     return path
 
 
 @fixture
-def app_name():
+def app_name() -> str:
     return "test_app"
 
 
@@ -39,3 +43,14 @@ def log_file_observer(tmp_log_file, request: FixtureRequest) -> Observer:
 
     observer.stop()
     observer.join()
+
+
+def function_under_test(*args, **kwargs) -> tuple[tuple[Any, ...], dict[Any, Any]]:
+    return args, kwargs
+
+
+@fixture
+def decorated_function(request: FixtureRequest) -> Callable:
+    decorator = request.param
+    decorated_func = decorator(function_under_test)
+    return decorated_func

@@ -16,7 +16,7 @@ def test_config_creation(tmp_log_file, app_name):
     ),
 )
 def test_config_creation_with_wrong_level(tmp_log_file, app_name, kwargs):
-    with raises(AssertionError):
+    with raises(ValueError):
         _ = create_dict_config(tmp_log_file, app_name, **kwargs)
 
 

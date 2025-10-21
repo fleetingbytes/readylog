@@ -1,6 +1,7 @@
 from functools import wraps
 from itertools import product
-from logging import DEBUG, getLevelName, getLevelNameMapping, getLogger
+from logging import DEBUG, getLevelName, getLevelNamesMapping, getLogger
+from sys import modules
 
 logger = getLogger(__name__)
 
@@ -48,7 +49,7 @@ def log_io(level=DEBUG, enter=False, exit=False):
     return decorator
 
 
-level_names = getLevelNameMapping().values()
+level_names = getLevelNamesMapping().keys()
 
 for level, direction in product(level_names, ("_in", "_out", "")):
     if direction == "_in":
@@ -61,7 +62,7 @@ for level, direction in product(level_names, ("_in", "_out", "")):
         enter = True
         exit = True
     setattr(
-        __name__,
+        modules[__name__],
         f"{level.lower()}{direction}",
         log_io(getLevelName(level), enter=enter, exit=exit),
     )

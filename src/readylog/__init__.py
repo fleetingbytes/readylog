@@ -1,6 +1,7 @@
 from collections.abc import Callable
-from logging import FileHandler, StreamHandler, getLevelName, getLevelNamesMapping
+from logging import FileHandler, StreamHandler, _checkLevel, getLevelName
 from pathlib import Path
+from sys import modules
 
 
 def create_dict_config(
@@ -11,10 +12,9 @@ def create_dict_config(
     console_handler_factory: Callable = StreamHandler,
     file_handler_factory: Callable = FileHandler,
 ) -> dict[str, str]:
-    level_names = getLevelNamesMapping().keys()
-    assert console_log_level in level_names
-    assert file_log_level in level_names
-    min_level = getLevelName(min(getLevelName(console_log_level), getLevelName(file_log_level)))
+    console_log_level = _checkLevel(console_log_level)
+    file_log_level = _checkLevel(file_log_level)
+    min_level = getLevelName(min(console_log_level, file_log_level))
 
     custom_file_formatter_conf = {
         "format": "{message:<50s} {levelname:>9s} {asctime}.{msecs:03.0f} {module}({lineno}) {funcName}",
@@ -100,6 +100,7 @@ def create_dict_config(
     loggers_dict = {
         app_name: custom_logger_conf,
         "__main__": custom_logger_conf,
+        f"{modules[__name__].__spec__.parent}.decorators": custom_logger_conf,
     }
 
     dict_config = {
