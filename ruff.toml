@@ -44,7 +44,7 @@ select = [
 ]
 "tests/test_decorators.py" = [
     "N813",    # camelcase-imported-as-lowercase
-    "PLR917",  # too-many-positional-arguments
+    "PLR0917",  # too-many-positional-arguments
 ]
 "src/readylog/__init__.py" = [
     "PLR0913",  # too-many-arguments
