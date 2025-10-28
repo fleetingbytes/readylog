@@ -30,6 +30,11 @@ jobs:
   test-e2e:
     name: End-to-End Test
     runs-on: ubuntu-latest
+    env:
+      APP_CONSOLE_LOG: "e2e-test-app-stderr.log"
+      APP_FILE_LOG: "e2e-test-logfile.log"
+      APP_FILE_LOG_ROOT: "e2e-test-logfile_root.log"
+      APP_EXPECTED_LOG_LINES: 3
     steps:
       - !step
         name: Setup | Checkout Repository
@@ -71,10 +76,10 @@ jobs:
         run: ${{ inputs.run-test-command }}
 
       - name: Test | Run End-to-End App Test
-        run: |
-          [ $(./tests/e2e_test_app.py 2>&1 | wc -l) -eq 3 ]
+        run: ./tests/e2e_test_app.py 2>"$APP_CONSOLE_LOG"
 
       - name: Test | Check End-to-End Test Results
         run: |
-          [ "$(wc -l < e2e-test-logfile.log)" -eq 3 ] && \
-          [ ! -s "e2e-test-logfile_root.log" ]
+          [ "$(wc -l < $APP_CONSOLE_LOG)" -eq $APP_EXPECTED_LOG_LINES ] && \
+          [ "$(wc -l < $APP_FILE_LOG)" -eq $APP_EXPECTED_LOG_LINES ] && \
+          [ ! -s "$APP_FILE_LOG_ROOT" ]
