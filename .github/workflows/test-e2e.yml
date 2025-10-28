@@ -80,6 +80,7 @@ jobs:
 
       - name: Test | Check End-to-End Test Results
         run: |
+          cat "$APP_CONSOLE_LOG"
           echo "Lines in $APP_CONSOLE_LOG: $(wc -l < $APP_CONSOLE_LOG)"
           echo "Lines in $APP_FILE_LOG: $(wc -l < $APP_FILE_LOG)"
           echo "Size of $APP_FILE_LOG_ROOT: $(wc -c < $APP_FILE_LOG_ROOT)"
