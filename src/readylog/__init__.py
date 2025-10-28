@@ -5,13 +5,14 @@ from sys import modules
 
 
 def create_dict_config(
-    logfile: Path,
+    logfile: Path | str,
     app_name: str,
     console_log_level: str | int = "WARNING",
     file_log_level: str | int = "DEBUG",
     console_handler_factory: Callable = StreamHandler,
     file_handler_factory: Callable = FileHandler,
 ) -> dict[str, str]:
+    logfile = Path(logfile)
     console_log_level = _checkLevel(console_log_level)
     file_log_level = _checkLevel(file_log_level)
     min_level = getLevelName(min(console_log_level, file_log_level))
