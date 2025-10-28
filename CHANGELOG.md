@@ -2,6 +2,40 @@
 
 <!-- version list -->
 
+## v0.2.0 (2025-10-28)
+
+### Features
+
+- Allow strings to specify path to log file
+  ([`b1a15e9`](https://github.com/fleetingbytes/readylog/commit/b1a15e964238ba5d80e12e6b27e555b2f37f4366))
+
+### Testing
+
+- Introduce end-to-end app test
+  ([`8151146`](https://github.com/fleetingbytes/readylog/commit/8151146306b9337b7de7ef1eba91070c2b8c6ee6))
+
+- **debug**: Find out why app console log has 4 lines rather than 3
+  ([`b23e1a0`](https://github.com/fleetingbytes/readylog/commit/b23e1a00b3333dfd2417d091ff007bcd364acd10))
+
+- **debug**: Find out why app console log has 4 lines rather than 3
+  ([`b452f07`](https://github.com/fleetingbytes/readylog/commit/b452f07930601b20866ba01e023b91f98d1c5106))
+
+- **debug**: Try to debug checking end-to-end test results
+  ([`e966eab`](https://github.com/fleetingbytes/readylog/commit/e966eab965c9d49deb95f96f13f0c4310ae5c12a))
+
+- **fix**: Correct end to end app test logic
+  ([`24c6ffa`](https://github.com/fleetingbytes/readylog/commit/24c6ffa207fa7e7623937857e982fcb33b7ec8f0))
+
+- **fix**: Correct syntax
+  ([`b0339d4`](https://github.com/fleetingbytes/readylog/commit/b0339d4a01f772a7faa63880bcf32f31ce58c5b3))
+
+- **fix**: Try to quiet uv's output when installing script dependencies
+  ([`dae8dfd`](https://github.com/fleetingbytes/readylog/commit/dae8dfdbd7bc27710c8b5b9c9e6ad69626fbb49b))
+
+- **fix**: Use variables and output redirection
+  ([`d6dd42f`](https://github.com/fleetingbytes/readylog/commit/d6dd42f81773322e5e6eee1584cd8338589904f7))
+
+
 ## v0.1.1 (2025-10-21)
 
 ### Bug Fixes
