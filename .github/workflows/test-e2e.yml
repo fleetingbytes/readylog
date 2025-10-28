@@ -70,3 +70,8 @@ jobs:
       - name: Test | Run pytest
         run: ${{ inputs.run-test-command }}
 
+      - name: Test | Run End-to-End App Test
+        run: ./tests/e2e_test_app.py
+
+      - name: Test | Check End-to-End Test Results
+        run: [ "$(wc -l < e2e-test-app-stderr.log)" -eq 3 ] && [ "$(wc -l < e2e-test-logfile.log)" -eq 3 ] && [ ! -s "e2e-test-logfile_root.log" ]
