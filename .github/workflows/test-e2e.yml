@@ -80,6 +80,14 @@ jobs:
 
       - name: Test | Check End-to-End Test Results
         run: |
-          [ "$(wc -l < $APP_CONSOLE_LOG)" -eq $APP_EXPECTED_LOG_LINES ] && \
+          echo "Lines in $APP_CONSOLE_LOG: $(wc -l < $APP_CONSOLE_LOG)"
+          echo "Lines in $APP_FILE_LOG: $(wc -l < $APP_FILE_LOG)"
+          echo "Size of $APP_FILE_LOG_ROOT: $(wc -c < $APP_FILE_LOG_ROOT)"
+          if [ "$(wc -l < $APP_CONSOLE_LOG)" -eq $APP_EXPECTED_LOG_LINES ] && \
           [ "$(wc -l < $APP_FILE_LOG)" -eq $APP_EXPECTED_LOG_LINES ] && \
-          [ ! -s "$APP_FILE_LOG_ROOT" ]
+          [ ! -s "$APP_FILE_LOG_ROOT" ]; then
+              echo "All checks passed."
+          else
+              echo "Test condition failed."
+              exit 1
+          fi
