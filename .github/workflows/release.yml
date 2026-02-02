@@ -53,7 +53,7 @@ jobs:
     steps:
       - !step
         name: Setup | Checkout Repository on Release Branch
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3  # v6.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
@@ -63,13 +63,13 @@ jobs:
 
       - !step
         name: Setup | Install Python
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548  # v6.1.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
         with:
           python-version-file: .python-version
 
       - !step
         name: Setup | Install uv
-        uses: astral-sh/setup-uv@1e862dfacbd1d6d858c55d9b792c756523627244  # v7.1.4
+        uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41  # v7.2.1
       - name: Setup | Install python-semantic-release
         run: uv tool install python-semantic-release
 
@@ -78,7 +78,7 @@ jobs:
 
       - !step
         name: Setup | Download Build Artifacts
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53  # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
         id: artifact-download
         with:
           name: ${{ inputs.distribution-artifacts-name }}
@@ -86,7 +86,7 @@ jobs:
 
       - !step
         name: Setup | Download Lock File Artifact
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53  # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
         with:
           name: ${{ inputs.lockfile-artifact }}
 

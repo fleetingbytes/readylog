@@ -41,7 +41,7 @@ jobs:
     steps:
       - !step
         name: Setup | Checkout Repository at Workflow SHA
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3  # v6.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
         with:
           ref: ${{ github.sha }}
           fetch-depth: 0
@@ -51,13 +51,13 @@ jobs:
 
       - !step
         name: Setup | Install Python
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548  # v6.1.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
         with:
           python-version-file: .python-version
 
       - !step
         name: Setup | Install uv
-        uses: astral-sh/setup-uv@1e862dfacbd1d6d858c55d9b792c756523627244  # v7.1.4
+        uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41  # v7.2.1
       - name: Setup | Install python-semantic-release
         env:
           UV_NO_MANAGED_PYTHON: true
@@ -78,7 +78,7 @@ jobs:
       - !step
         name: Upload | Distribution Artifacts
         if: ${{ steps.version.outputs.released == 'true' }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4  # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
         with:
           name: ${{ inputs.distribution-artifacts-name }}
           path: ${{ format('{0}/**', inputs.distribution-artifacts-dir) }}
@@ -87,7 +87,7 @@ jobs:
       - !step
         name: Upload | Lock File Artifact
         if: ${{ steps.version.outputs.released == 'true' }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4  # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
         with:
           name: ${{ inputs.lockfile-artifact }}
           path: ${{ inputs.lockfile-artifact }}
