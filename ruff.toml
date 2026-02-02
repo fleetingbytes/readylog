@@ -33,9 +33,6 @@ select = [
 ]
 
 [lint.per-file-ignores]
-"src/**/cli/__init__.py" = [
-    "N813",  # camelcase-imported-as-lowercase
-]
 "tests/test_general.py" = [
     "N813",  # camelcase-imported-as-lowercase
 ]
@@ -47,7 +44,7 @@ select = [
     "PLR0913",  # too-many-arguments
     "PLR0917",  # too-many-positional-arguments
 ]
-"src/readylog/__init__.py" = [
+"src/readylog/readylog.py" = [
     "PLR0913",  # too-many-arguments
     "PLR0914",  # too-many-local-variables
     "PLR0917",  # too-many-positional-arguments
@@ -58,6 +55,7 @@ extend-safe-fixes = [
     "TC001",  # typing-only-first-party-import
     "TC002",  # typing-only-third-party-import
     "TC003",  # typing-only-standard-library-import
+    "TC004",  # runtime-import-in-type-checking-block
 ]
 
 [lint.mccabe]
