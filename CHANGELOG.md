@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v0.4.0 (2026-02-02)
+
+### Continuous Integration
+
+- **chore**: Update action versions
+  ([`85ee9e1`](https://github.com/fleetingbytes/readylog/commit/85ee9e1cf131fc58e64c2e9df6324a78e6c66c8b))
+
+### Features
+
+- Change log format
+  ([`1600e3b`](https://github.com/fleetingbytes/readylog/commit/1600e3bf832ec0be739bb0324418f6c36cd04ce3))
+
+
 ## v0.3.0 (2026-02-02)
 
 ### Chores

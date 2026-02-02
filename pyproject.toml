@@ -1,6 +1,6 @@
 [project]
 name = "readylog"
-version = "0.3.0"
+version = "0.4.0"
 description = "Creates a reasonable logging configuration for a Python project"
 license = "BSD-2-Clause"
 readme = "README.md"
