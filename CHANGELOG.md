@@ -2,6 +2,24 @@
 
 <!-- version list -->
 
+## v0.3.0 (2026-02-02)
+
+### Chores
+
+- Update dependencies
+  ([`f95304b`](https://github.com/fleetingbytes/readylog/commit/f95304b0cae95b2c29cc3416cc2c049e233cbdf5))
+
+### Continuous Integration
+
+- Update action versions
+  ([`b726510`](https://github.com/fleetingbytes/readylog/commit/b726510cf0c018159980d26452fbe7b7a34ecc09))
+
+### Features
+
+- Reorder fields in log message format
+  ([`8eaeadf`](https://github.com/fleetingbytes/readylog/commit/8eaeadf8e1c7f53ff591675e8296ae0184b49bce))
+
+
 ## v0.2.0 (2025-10-28)
 
 ### Features
