@@ -18,13 +18,13 @@ def create_dict_config(
     min_level = getLevelName(min(console_log_level, file_log_level))
 
     custom_file_formatter_conf = {
-        "format": "{asctime}.{msecs:03.0f} {levelname:>9s} {message:<50s} {module}({lineno}) {funcName}",
+        "format": "{asctime}.{msecs:03.0f} {levelname} {message} {module}({lineno}) {funcName}",
         "style": "{",
         "datefmt": "%a %H:%M:%S",
     }
 
     custom_console_formatter_conf = {
-        "format": "{levelname:>9s} {message:<50s} {module}({lineno}) {funcName}",
+        "format": "{levelname} {message} {module}({lineno}) {funcName}",
         "style": "{",
         "datefmt": "%a %H:%M:%S",
     }
