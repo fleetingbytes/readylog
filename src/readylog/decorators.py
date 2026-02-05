@@ -3,8 +3,6 @@ from itertools import product
 from logging import DEBUG, getLevelName, getLevelNamesMapping, getLogger
 from sys import modules
 
-logger = getLogger(__name__)
-
 
 def log_io(level=DEBUG, enter=False, exit=False):
     """
@@ -30,6 +28,8 @@ def log_io(level=DEBUG, enter=False, exit=False):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
+            if enter or exit:
+                logger = getLogger(func.__module__)
             if enter:
                 logger.log(
                     level,

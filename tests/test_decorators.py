@@ -66,7 +66,15 @@ def test_decorators(
     expect_function_return_logged: bool,
     capsys: CaptureFixture,
 ) -> None:
-    config = create_dict_config(tmp_log_file, app_name, console_log_level=DEBUG)
+    name_of_the_module_where_the_inner_decorated_function_lives = "tests.conftest"
+    logger_of_the_inner_decorated_function = name_of_the_module_where_the_inner_decorated_function_lives
+
+    config = create_dict_config(
+        tmp_log_file,
+        app_name,
+        console_log_level=DEBUG,
+        additional_logger_names=(logger_of_the_inner_decorated_function,),
+    )
     configure_logging(config)
 
     decorated_function("some_arg", some_kwarg="some_value")
