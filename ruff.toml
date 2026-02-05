@@ -51,6 +51,10 @@ select = [
     "PLC2701",  # import-private-name
 ]
 
+"src/readylog/decorators.py" = [
+    "C901",  # too-complex
+]
+
 extend-safe-fixes = [
     "TC001",  # typing-only-first-party-import
     "TC002",  # typing-only-third-party-import
