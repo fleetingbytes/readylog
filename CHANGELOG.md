@@ -2,6 +2,24 @@
 
 <!-- version list -->
 
+## v0.5.0 (2026-02-05)
+
+### Chores
+
+- Update dependencies
+  ([`98ca629`](https://github.com/fleetingbytes/readylog/commit/98ca629a7a5c03b51d5a9acf9fb30f5507ee1810))
+
+### Code Style
+
+- Ignore excessive complexity of decorator function
+  ([`2266b93`](https://github.com/fleetingbytes/readylog/commit/2266b933813018f10a03beaaa2291a09c68d45de))
+
+### Features
+
+- Support additional loggers
+  ([`5205fc3`](https://github.com/fleetingbytes/readylog/commit/5205fc340f3598e6d9679c948dc48330590bf648))
+
+
 ## v0.4.0 (2026-02-02)
 
 ### Continuous Integration
