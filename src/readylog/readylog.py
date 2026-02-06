@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-DEFAULT_CORE_LOG_FORMAT = "{levelname} [{name}({lineno})], {funcName}: {message}"
+DEFAULT_CORE_LOG_FORMAT = "{levelname} {name}({lineno}), {funcName}: {message}"
 DEFAULT_CONSOLE_LOG_FORMAT = DEFAULT_CORE_LOG_FORMAT
 DEFAULT_FILE_LOG_FORMAT = "{} {}".format("{asctime}.{msecs:03.0f} ", DEFAULT_CORE_LOG_FORMAT)
 DEFAULT_CONSOLE_LOG_TIME_FORMAT = "%H:%M:%S"
