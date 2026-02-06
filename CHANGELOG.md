@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v0.6.1 (2026-02-06)
+
+### Bug Fixes
+
+- Change default log format
+  ([`9dafe6c`](https://github.com/fleetingbytes/readylog/commit/9dafe6cacc23408ddc5d7a4554dc4d30ccf7deec))
+
+### Documentation
+
+- Update readme
+  ([`2713af8`](https://github.com/fleetingbytes/readylog/commit/2713af82a65b0d9c936709cb1cc500ce3b80e90f))
+
+
 ## v0.6.0 (2026-02-06)
 
 ### Features
