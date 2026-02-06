@@ -8,9 +8,11 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-DEFAULT_CORE_LOG_FORMAT = "{levelname} {name} {message} {module}({lineno}) {funcName}"
+DEFAULT_CORE_LOG_FORMAT = "{levelname} [{name}({lineno})], {funcName}: {message}"
 DEFAULT_CONSOLE_LOG_FORMAT = DEFAULT_CORE_LOG_FORMAT
 DEFAULT_FILE_LOG_FORMAT = "{} {}".format("{asctime}.{msecs:03.0f} ", DEFAULT_CORE_LOG_FORMAT)
+DEFAULT_CONSOLE_LOG_TIME_FORMAT = "%H:%M:%S"
+DEFAULT_FILE_LOG_TIME_FORMAT = DEFAULT_CONSOLE_LOG_TIME_FORMAT
 
 
 def create_dict_config(
@@ -18,52 +20,15 @@ def create_dict_config(
     app_name: str,
     console_log_level: str | int = "WARNING",
     console_log_format: str = DEFAULT_CONSOLE_LOG_FORMAT,
+    console_log_time_format: str = DEFAULT_CONSOLE_LOG_TIME_FORMAT,
     file_log_level: str | int = "DEBUG",
     file_log_format: str = DEFAULT_FILE_LOG_FORMAT,
+    file_log_time_format: str = DEFAULT_CONSOLE_LOG_TIME_FORMAT,
     console_handler_factory: Callable = StreamHandler,
     file_handler_factory: Callable = FileHandler,
     additional_logger_names: tuple[str] = (),
     root_logger_level: str | int = "WARNING",
 ) -> dict[str, str]:
-    """
-    create_dict_config(
-    logfile: Path | str,
-    app_name: str,
-    console_log_level: str | int = "WARNING",
-    console_log_format: str = DEFAULT_CONSOLE_LOG_FORMAT,
-    file_log_level: str | int = "DEBUG",
-    file_log_format: str = DEFAULT_FILE_LOG_FORMAT,
-    console_handler_factory: Callable = StreamHandler,
-    file_handler_factory: Callable = FileHandler,
-    additional_logger_names: tuple[str] = (),
-    root_logger_level: str | int = "WARNING",
-    )
-
-    Arguments:
-        logfile: name of the log file where to save the logs
-        app_name: name of your app (will be used as a logger name)
-
-    Keyword Arguments:
-        console_log_level: minimum log level for the console log
-        console_log_format: console log line format in "{" style
-        file_log_level: minimum log level for the file log
-        file_log_format: file log line format in "{" style
-        console_handler_factory: the factory for the stream handler
-        file_handler_factory: the factory for the file handler
-        additional_logger_names: here you can put all the other logger names
-            which you want to include in your log. Use this
-            when you have projects with uv workspaces and want to
-            see logs from workspace members rather than just from
-            you main app.
-        root_logger_lever: minimum level to display in you root log
-
-    root log will be output to console and to a file.
-    The path and name of the root log file is derived from the
-    logfile path, but the file name stem has a "_root" suffix.
-
-    For example if logfile path is `/home/my_user/my_app/debug.log`,
-    then the root log will be in `/home/my_user/my_app/debug_root.log`.
-    """
     logfile = Path(logfile)
     console_log_level = _checkLevel(console_log_level)
     file_log_level = _checkLevel(file_log_level)
@@ -73,13 +38,13 @@ def create_dict_config(
     custom_file_formatter_conf = {
         "format": file_log_format,
         "style": "{",
-        "datefmt": "%a %H:%M:%S",
+        "datefmt": DEFAULT_CONSOLE_LOG_TIME_FORMAT,
     }
 
     custom_console_formatter_conf = {
         "format": console_log_format,
         "style": "{",
-        "datefmt": "%a %H:%M:%S",
+        "datefmt": DEFAULT_FILE_LOG_TIME_FORMAT,
     }
 
     root_file_formatter_conf = {
