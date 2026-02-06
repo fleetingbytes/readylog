@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.6.0 (2026-02-06)
+
+### Features
+
+- Possibility to specify time format
+  ([`43373cd`](https://github.com/fleetingbytes/readylog/commit/43373cd61b91b0514c5338563bda16ad5c4c91a5))
+
+
 ## v0.5.0 (2026-02-05)
 
 ### Chores
