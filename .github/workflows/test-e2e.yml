@@ -45,7 +45,7 @@ jobs:
 
       - !step
         name: Setup | Download Distribution Artifacts
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3  # v8.0.0
         if: ${{ inputs.new-release-detected == 'true' }}
         id: artifact-download
         with:
@@ -60,7 +60,7 @@ jobs:
 
       - !step
         name: Setup | Install uv
-        uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41  # v7.2.1
+        uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b  # v7.3.0
       - name: Setup | Install Project Dependencies for Test
         env:
           UV_NO_MANAGED_PYTHON: true
